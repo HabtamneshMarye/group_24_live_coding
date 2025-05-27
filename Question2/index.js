@@ -1,50 +1,39 @@
-
-
-
-
-
-
-
-let reservations = {};
-function addReservation(roomNumber, guestName, checkinDate) {
-    let reserved=[10,20,40]
-    for(room in reserved){
-        if(room!=roomNumber){
-    reservations[roomNumber] = { guest: guestName, checkinDate: checkinDate };
-    }
-    else{
-        console.log("The room is taken")
-    }
-}
-}
-
-function getReservation(roomNumber) {
-    return reservations[roomNumber]
-}
-
-addReservation(21, "Ala", "2025-05-14");
-
-
-
-function reservation(roomNumber,guestDetails){
+    function checkAvailability(doctorAvailability, requestedDate) {
     
-    const reservedRooms=[20,30,40,12];
-    for(room in reservedRooms){
-      
-        if(room!=roomNumber){
-            const bookRoom={}
-             bookRoom[roomNumber]= guestDetails;
-        return bookRoom
-       
-        }
-        else{
-            console.log("The room is taken")
-        }
-       
+        return doctorAvailability.includes(requestedDate); 
     }
-}
-const reserve=reservation(20,[{name:"Alia",checkInDetails:"02-03-05"}])
-console.log(reserve) 
+        
+    function findMatchingDoctors(doctors, requestedDate, isEmergency) {
+        const availableDoctors = [];
 
+        if (isEmergency) {
+            
+            for (const doctor of doctors) {
+                if (doctor.availability.length > 0) { 
+                  availableDoctors.push(doctor);
 
+                }
+            }
+        } else {
+            
+            for (const doctor of doctors) {
+                if (checkAvailability(doctor.availability, requestedDate)) {
+                   availableDoctors.push(doctor);
+                }
+            }
+        }
+        return availableDoctors;
+    }
+        const doctors = [
+        { name: "Dr. Fana",  specialty: "Cardiology", availability: ["05/27/2025", "05/28/2025"] },
+        { name: "Dr. Daniel", specialty: "Neurology", availability: ["05/29/2025", "05/30/2025"] },
+    ];
 
+    const patient1 = { name: "Hellen", requestedDate: "05/27/2025", isEmergency: false };
+    const patient2 = { name: "Jennifer", requestedDate: "05/27/2025", isEmergency: true };
+
+    const matchingDoctorsForPatient1 = findMatchingDoctors(doctors, patient1.requestedDate, patient1.isEmergency);
+    const matchingDoctorsForPatient2 = findMatchingDoctors(doctors, patient2.requestedDate, patient2.isEmergency);
+
+    console.log(matchingDoctorsForPatient1); 
+    console.log(matchingDoctorsForPatient2); 
